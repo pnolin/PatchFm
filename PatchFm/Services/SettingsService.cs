@@ -13,7 +13,7 @@ namespace PatchFm.Services
             _settings = settings;
         }
 
-        public DateTime? ScrobblingSince => _settings.ScrobblingSince;
+        public DateTime? ScrobblingSince => _settings.StartDate;
         public string LastFmUsername => _settings.LastFmUsername;
         public string LastFmApiKey => _settings.LastFmApiKey;
         public string LastFmApiSecret => _settings.LastFmApiSecret;

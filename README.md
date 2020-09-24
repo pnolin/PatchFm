@@ -14,7 +14,11 @@ If you encounter an inaccuracy not taken into consideration by this tool, feel f
 # How to execute it
 
 Download the appropriate exectuable on the [release](https://github.com/pnolin/PatchFm/releases) page.
-Run the executable!
+
+Run the following command `PatchFm[.exe] --LastFmUsername={Username} --StartDate={yyyy-mm-dd}`
+
+Where `{Username}` is replaced by your LastFm Username and `{yyyy-mm-dd}` is replaced by the date you want the tool to start fetching Scrobbles from.
+If you don't provide a value for the `StartDate` parameter then the Start Date will bet to the date time you are running the tool minus 24 hours.
 
 # Fixing the inaccuracies
 
@@ -30,6 +34,9 @@ These transformations can be applied manually in LastFm since it allows editting
 # Contributing
 
 The only non-technical prerequisite to build and run the application is to have an LastFm Api Key and Secret.
-You can create that [here](https://www.last.fm/api/account/create)
+You can create that [here](https://www.last.fm/api/account/create).
+
+You can either set your Key and Secret in the appsettings.json (without pushing the Keys) or by using .netcore [Secret Manager](https://docs.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-3.1&tabs=windows).
+The Username and Start Date can be set in the appsettings.json or via the command line.
 
 Pull Requests are welcome!

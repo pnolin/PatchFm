@@ -23,6 +23,8 @@ namespace PatchFm
                 builder.AddUserSecrets<Program>();
             }
 
+            builder.AddCommandLine(args);
+
             var configuration = builder.Build();
 
             IServiceCollection services = new ServiceCollection();
