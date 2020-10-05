@@ -47,8 +47,8 @@ namespace PatchFm.Services
 
             var albumTransformations = await _albumTransformationService.GenerateAlbumTransformations(tracks);
             var albumTransformationsAsText = albumTransformations
-                .Select(transformation => $"{transformation.Track.Title} should have its album changed from " +
-                $"{transformation.Track.Album} to {transformation.TransformedTo}");
+                .Select(transformation => $"All {transformation.Track.Title} should have {transformation.TransformedTo} " +
+                    $"as the album.");
 
             var date = DateTime.Now.ToString("yyyy-MM-dd");
 

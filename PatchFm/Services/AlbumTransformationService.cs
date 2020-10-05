@@ -11,45 +11,53 @@ namespace PatchFm.Services
     {
         public Task<IEnumerable<Transformation>> GenerateAlbumTransformations(IEnumerable<Track> tracks)
         {
-            var dictionnary = tracks
-                .Aggregate(new Dictionary<string, List<Track>>(), (dictionnary, currentTrack) =>
+            IList<Transformation> transformations = new List<Transformation>();
+
+            var groupedAlbums = tracks
+                .GroupBy(track => track.Album)
+                .ToList();
+
+            var tracksByTitle = tracks
+                .Select(track => track.Title)
+                .Distinct()
+                .ToList();
+
+            foreach (var title in tracksByTitle)
+            {
+                var allAlbums = groupedAlbums.Where(album => album.Any(track => track.Title == title));
+
+                if (allAlbums.Count() > 1)
                 {
-                    if (dictionnary.ContainsKey(currentTrack.Album))
+                    var albumWithMostPlays = allAlbums.Aggregate(allAlbums.First(), (currentAlbumWithMostPlays, currentAlbum) =>
                     {
-                        dictionnary[currentTrack.Album].Add(currentTrack);
-                        return dictionnary;
-                    }
-
-                    dictionnary.Add(currentTrack.Album, new List<Track>() { currentTrack });
-
-                    return dictionnary;
-                });
-
-            var albumTransformations = tracks
-                .Select(track =>
-                {
-                    var currentAlbumCount = dictionnary[track.Album].Count();
-                    var potentialAlbumList = dictionnary
-                        .Where(item => item.Value.Any(albumTrack =>
+                        if (string.IsNullOrEmpty(currentAlbumWithMostPlays.Key))
                         {
-                            return albumTrack.Title == track.Title &&
-                                albumTrack.Artist == track.Artist &&
-                                albumTrack.Album != track.Album;
-                        }));
+                            return currentAlbum;
+                        }
 
-                    var potentialAlbum = potentialAlbumList.Count() == 0
-                        ? track.Album
-                        : potentialAlbumList.Aggregate(track.Album, (currentPotentialAlbum, currentKeyValuePair) =>
-                            currentPotentialAlbum != string.Empty &&
-                            dictionnary[currentPotentialAlbum].Count() >= currentKeyValuePair.Value.Count()
-                                ? currentPotentialAlbum
-                                : currentKeyValuePair.Key);
+                        if (string.IsNullOrEmpty(currentAlbum.Key))
+                        {
+                            return currentAlbumWithMostPlays;
+                        }
 
-                    return new Transformation() { Track = track, TransformedTo = potentialAlbum };
-                })
-                .Where(transformation => transformation.Track.Album != transformation.TransformedTo);
+                        return currentAlbum.Count() >= currentAlbumWithMostPlays.Count()
+                            ? currentAlbum
+                            : currentAlbumWithMostPlays;
+                    });
 
-            return Task.FromResult(albumTransformations);
+                    transformations.Add(new Transformation()
+                    {
+                        Track = new Track()
+                        {
+                            Title = title,
+                            Album = albumWithMostPlays.Key
+                        },
+                        TransformedTo = albumWithMostPlays.Key
+                    });
+                }
+            }
+
+            return Task.FromResult(transformations.AsEnumerable());
         }
     }
 }

@@ -7,7 +7,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LastFm", "LastFm", "{432C2D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatchFm.LastFm.Net", "PatchFm.LastFm.Net\PatchFm.LastFm.Net.csproj", "{FCF8A36B-413E-497A-899E-78A9D6EB32A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PatchFm", "PatchFm\PatchFm.csproj", "{59BBA385-1F99-4E12-AA94-BE3722CC84B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PatchFm", "PatchFm\PatchFm.csproj", "{59BBA385-1F99-4E12-AA94-BE3722CC84B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{62A984C7-14E3-491C-861E-B1EB449B6FCE}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
